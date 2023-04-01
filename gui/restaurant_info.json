@@ -1,0 +1,113 @@
+{"name": "Girl & The Goat", "address": "809 W Randolph St Chicago, IL 60607 ", "rating": "4.5", "category": ["American (New)", "Bakeries", "Coffee & Tea"], "id": 0}
+{"name": "Wildberry Pancakes and Cafe", "address": "130 E Randolph St Chicago, IL 60601 ", "rating": "4.5", "category": ["Pancakes", "Waffles", "Cafes"], "id": 1}
+{"name": "The Purple Pig", "address": "444 N Michigan Ave Chicago, IL 60611 ", "rating": "4", "category": ["Tapas/Small Plates", "Mediterranean", "American (New)"], "id": 2}
+{"name": "Pequod's Pizzeria", "address": "2207 N Clybourn Ave Chicago, IL 60614 ", "rating": "4", "category": ["Pizza"], "id": 3}
+{"name": "Lou Malnati's Pizzeria", "address": "439 N Wells St Chicago, IL 60654 ", "rating": "4", "category": ["Pizza", "Italian", "Sandwiches"], "id": 4}
+{"name": "Portillo's & Barnelli's Chicago", "address": "100 W Ontario St Chicago, IL 60654 ", "rating": "4", "category": ["Hot Dogs", "Salad", "Burgers"], "id": 5}
+{"name": "Kuma's Corner - Belmont", "address": "2900 W Belmont Ave Chicago, IL 60618 ", "rating": "4", "category": ["Burgers", "American (Traditional)", "Cocktail Bars"], "id": 6}
+{"name": "Little Goat Diner", "address": "820 W Randolph St Chicago, IL 60607 ", "rating": "4", "category": ["Diners"], "id": 7}
+{"name": "Cafe Ba-Ba-Reeba!", "address": "2024 N Halsted St Chicago, IL 60614 ", "rating": "4", "category": ["Spanish", "Tapas Bars", "Venues & Event Spaces"], "id": 8}
+{"name": "Smoque BBQ", "address": "3800 N Pulaski Rd Ste 2 Chicago, IL 60641 ", "rating": "4.5", "category": ["Barbeque"], "id": 9}
+{"name": "Tian Tian Hainanese Chicken Rice", "address": "1 Kadayanallur St #01 -10/11 Maxwell Food Center Singapore 069120 Singapore ", "rating": "4", "category": ["Hainan", "Chicken Shop"], "id": 10}
+{"name": "Jumbo Seafood", "address": "20 Upper Circular Road #B1-48 Singapore 058416 Singapore ", "rating": "4", "category": ["Seafood"], "id": 11}
+{"name": "Liao Fan Hawker Chan", "address": "78 Smith St Singapore 058972 Singapore ", "rating": "4", "category": ["Noodles", "Chicken Shop"], "id": 12}
+{"name": "C\u00c9 LA VI Restaurant", "address": "1 Bayfront Avenue Tower 3 Marina 018971 Singapore ", "rating": "3", "category": ["Bars", "Asian Fusion"], "id": 13}
+{"name": "Song Fa Bak Kut Teh", "address": "11 New Bridge Rd #01-01 Singapore 059383 Singapore ", "rating": "4", "category": ["Singaporean", "Chinese"], "id": 14}
+{"name": "Din Tai Fung", "address": "435 Orchard Rd Level 4 Singapore 238877 Singapore ", "rating": "4.5", "category": ["Taiwanese", "Dim Sum", "Dumplings"], "id": 15}
+{"name": "Zam Zam Restaurant", "address": "697-699 North Bridge Rd Singapore 198676 Singapore ", "rating": "4", "category": ["Indian", "Halal"], "id": 16}
+{"name": "Vatos Urban Tacos", "address": "36 Beach Rd Singapore 189766 Singapore ", "rating": "4", "category": ["Mexican"], "id": 17}
+{"name": "Tai Hwa Pork Noodle", "address": "466 Crawford Lane #01-12, Tai Hwa Eating House Singapore 190465 Singapore ", "rating": "4", "category": ["Chinese", "Noodles"], "id": 18}
+{"name": "328 Katong Laksa", "address": "51 East Coast Rd Singapore 428770 Singapore ", "rating": "4", "category": ["Singaporean"], "id": 19}
+{"name": "Pai Northern Thai Kitchen", "address": "18 Duncan Street Toronto, ON M5H 3G8 Canada ", "rating": "4.5", "category": ["Thai"], "id": 20}
+{"name": "KINKA IZAKAYA ORIGINAL", "address": "398 Church Street Toronto, ON M5B 2A2 Canada ", "rating": "4", "category": ["Japanese", "Pubs"], "id": 21}
+{"name": "Khao San Road", "address": "11 Charlotte Street Toronto, ON M5V 2H5 Canada ", "rating": "4", "category": ["Thai"], "id": 22}
+{"name": "Seven Lives Tacos y Mariscos", "address": "72 Kensington Avenue Toronto, ON M5T 2K1 Canada ", "rating": "4.5", "category": ["Mexican"], "id": 23}
+{"name": "Banh Mi Boys", "address": "392 Queen Street W Toronto, ON M5V 2A9 Canada ", "rating": "4.5", "category": ["Vietnamese", "Sandwiches"], "id": 24}
+{"name": "Fishman Lobster Clubhouse Restaurant", "address": "4020 Finch Avenue E Toronto, ON M1S 3T6 Canada ", "rating": "4", "category": ["Chinese", "Seafood"], "id": 25}
+{"name": "Gusto 101", "address": "101 Portland Street Toronto, ON M5V 2N3 Canada ", "rating": "4", "category": ["Italian"], "id": 26}
+{"name": "Salad King Restaurant", "address": "340 Yonge Street Toronto, ON M5B 1R8 Canada ", "rating": "3.5", "category": ["Thai"], "id": 27}
+{"name": "El Catrin Destileria", "address": "18 Tank House Lane Toronto, ON M5A 3C4 Canada ", "rating": "3.5", "category": ["Mexican"], "id": 28}
+{"name": "Insomnia Restaurant & Lounge", "address": "563 Bloor Street W Toronto, ON M5S 1Y6 Canada ", "rating": "4", "category": ["Lounges", "Breakfast & Brunch", "Comfort Food"], "id": 29}
+{"name": "Neptune Oyster", "address": "63 Salem St Boston, MA 02113 ", "rating": "4.5", "category": ["Seafood", "Salad", "Sandwiches"], "id": 30}
+{"name": "Giacomo's Ristorante - Boston", "address": "355 Hanover St Boston, MA 02113 ", "rating": "4", "category": ["Italian", "Wine Bars", "Seafood"], "id": 31}
+{"name": "Union Oyster House", "address": "41 Union St Boston, MA 02108 ", "rating": "3.5", "category": ["Seafood"], "id": 32}
+{"name": "Carmelina's", "address": "307 Hanover St Boston, MA 02113 ", "rating": "4.5", "category": ["Italian"], "id": 33}
+{"name": "Atlantic Fish", "address": "761 Boylston St Boston, MA 02116 ", "rating": "4", "category": ["Seafood", "Live/Raw Food", "Cocktail Bars"], "id": 34}
+{"name": "The Friendly Toast", "address": "35 Stanhope St Back Bay, MA 02116 ", "rating": "4.5", "category": ["Bars", "Breakfast & Brunch", "Diners"], "id": 35}
+{"name": "Regina Pizza", "address": "11 1/2 Thacher St Boston, MA 02113 ", "rating": "4", "category": ["Pizza", "Italian"], "id": 36}
+{"name": "Barking Crab", "address": "88 Sleeper St Boston, MA 02210 ", "rating": "3", "category": ["Seafood", "Beer Bar"], "id": 37}
+{"name": "Toro", "address": "1704 Washington St Boston, MA 02118 ", "rating": "4", "category": ["Tapas Bars", "Spanish", "Cocktail Bars"], "id": 38}
+{"name": "Modern Pastry Shop", "address": "257 Hanover St Boston, MA 02113 ", "rating": "4", "category": ["Bakeries", "Desserts", "Breakfast & Brunch"], "id": 39}
+{"name": "Mr Wong", "address": "3 Bridge Ln Sydney New South Wales 2000 Australia ", "rating": "4", "category": ["Cantonese"], "id": 40}
+{"name": "Mamak", "address": "15 Goulburn St Haymarket New South Wales 2000 Australia ", "rating": "4", "category": ["Malaysian"], "id": 41}
+{"name": "Din Tai Fung", "address": "644 George St Shop 11.04, Level 1 Sydney New South Wales 2000 Australia ", "rating": "4", "category": ["Shanghainese", "Taiwanese", "Dumplings"], "id": 42}
+{"name": "Pancakes On The Rocks - The Rocks", "address": "22 Playfair St The Rocks New South Wales 2000 Australia ", "rating": "3.5", "category": ["Pizza", "Pancakes"], "id": 43}
+{"name": "Ippudo Sydney", "address": "Shop 5021, Level 5 188 Pitt St Sydney New South Wales 2000 Australia ", "rating": "4", "category": ["Ramen", "Noodles"], "id": 44}
+{"name": "Home Thai Restaurant", "address": "299 Sussex St Shop 1-2 Sydney New South Wales 2000 Australia ", "rating": "4", "category": ["Thai"], "id": 45}
+{"name": "Sak\u00e9", "address": "12 Argyle St The Rocks Sydney New South Wales 2000 Australia ", "rating": "4", "category": ["Bars", "Japanese", "Sushi Bars"], "id": 46}
+{"name": "Jamie's Italian", "address": "107 Pitt St Sydney New South Wales 2000 Australia ", "rating": "3", "category": ["Italian"], "id": 47}
+{"name": "The Rocks Cafe", "address": "99 George St The Rocks New South Wales 2000 Australia ", "rating": "4", "category": ["Modern Australian", "Modern European"], "id": 48}
+{"name": "The Baxter Inn", "address": "152-156 Clarence St Basement 152 Sydney New South Wales 2000 Australia ", "rating": "4.5", "category": ["Bars", "Restaurants"], "id": 49}
+{"name": "Dog House Grill", "address": "2789 E Shaw Ave Fresno, CA 93710 ", "rating": "4", "category": ["Sports Bars", "American (Traditional)", "Barbeque"], "id": 50}
+{"name": "Westwoods BBQ & Spice", "address": "8042 N Blackstone Ave Fresno, CA 93720 ", "rating": "3.5", "category": ["Barbeque"], "id": 51}
+{"name": "Heirloom", "address": "8398 N Fresno St Ste 101 Fresno, CA 93720 ", "rating": "4.5", "category": ["American (New)"], "id": 52}
+{"name": "Pismo's Coastal Grill", "address": "7937 N Blackstone Ave Fresno, CA 93720 ", "rating": "4", "category": ["Seafood", "Bars", "American (New)"], "id": 53}
+{"name": "The Annex Kitchen", "address": "2257 W Shaw Ave Fresno, CA 93711 ", "rating": "4.5", "category": ["Pizza", "Italian", "Cocktail Bars"], "id": 54}
+{"name": "South Gate Brewing Company", "address": "40233 Enterprise Dr Oakhurst, CA 93644 ", "rating": "4", "category": ["American (Traditional)", "Brewpubs", "Tapas/Small Plates"], "id": 55}
+{"name": "Colton's Social House", "address": "1150 Shaw Ave Clovis, CA 93612 ", "rating": "4", "category": ["American (New)", "Steakhouses", "Burgers"], "id": 56}
+{"name": "House of JuJu", "address": "565 Pollasky Ave Ste 101 Clovis, CA 93612 ", "rating": "4.5", "category": ["Bars", "American (Traditional)", "Hot Dogs"], "id": 57}
+{"name": "Batter Up Pancakes", "address": "8029 N Cedar Ave Fresno, CA 93720 ", "rating": "4.5", "category": ["Breakfast & Brunch"], "id": 58}
+{"name": "Benaddiction", "address": "3015 W Bullard Ave Fresno, CA 93711 ", "rating": "4", "category": ["Breakfast & Brunch", "American (Traditional)"], "id": 59}
+{"name": "The Breakfast Klub", "address": "3711 Travis St Houston, TX 77002 ", "rating": "4.5", "category": ["Breakfast & Brunch", "Southern", "American (Traditional)"], "id": 60}
+{"name": "JINYA Ramen Bar - Houston", "address": "3201 Louisiana St Ste 105 Houston, TX 77006 ", "rating": "4.5", "category": ["Ramen", "Cocktail Bars"], "id": 61}
+{"name": "Dish Society", "address": "5740 San Felipe St Ste 100 Houston, TX 77057 ", "rating": "4.5", "category": ["Breakfast & Brunch", "American (New)", "Southern"], "id": 62}
+{"name": "Aga's Restaurant & Catering", "address": "11842 Wilcrest Dr Houston, TX 77031 ", "rating": "4.5", "category": ["Pakistani", "Indian", "Halal"], "id": 63}
+{"name": "Common Bond Bistro & Bakery - Montrose", "address": "1706 Westheimer Rd Houston, TX 77098 ", "rating": "4", "category": ["Cafes", "Bakeries", "Breakfast & Brunch"], "id": 64}
+{"name": "Uchi", "address": "904 Westheimer Rd Ste A Houston, TX 77006 ", "rating": "4.5", "category": ["Sushi Bars", "Japanese"], "id": 65}
+{"name": "Turkey Leg Hut", "address": "4830 Almeda Rd Ste A-B Houston, TX 77004 ", "rating": "4", "category": ["Southern", "Cajun/Creole"], "id": 66}
+{"name": "Kata Robata", "address": "3600 Kirby Dr Ste H Houston, TX 77098 ", "rating": "4.5", "category": ["Sushi Bars", "Japanese", "Asian Fusion"], "id": 67}
+{"name": "The Original Ninfa's on Navigation", "address": "2704 Navigation Blvd Houston, TX 77003 ", "rating": "4", "category": ["Mexican", "Tex-Mex"], "id": 68}
+{"name": "Local Foods", "address": "2424 Dunstan Rd Houston, TX 77005 ", "rating": "4.5", "category": ["Sandwiches", "Salad", "Seafood"], "id": 69}
+{"name": "Bottega Louie", "address": "700 S Grand Ave Los Angeles, CA 90017 ", "rating": "4", "category": ["Italian", "Desserts", "Breakfast & Brunch"], "id": 70}
+{"name": "Porto's Bakery & Cafe", "address": "315 N Brand Blvd Glendale, CA 91203 ", "rating": "4.5", "category": ["Bakeries", "Cafes", "Custom Cakes"], "id": 71}
+{"name": "Daikokuya Little Tokyo", "address": "327 E 1st St Los Angeles, CA 90012 ", "rating": "4", "category": ["Ramen", "Noodles"], "id": 72}
+{"name": "Wurstk\u00fcche", "address": "800 E 3rd St Los Angeles, CA 90013 ", "rating": "4", "category": ["Hot Dogs", "German", "Gastropubs"], "id": 73}
+{"name": "Pink's Hot Dogs", "address": "709 N La Brea Ave Los Angeles, CA 90038 ", "rating": "3.5", "category": ["Hot Dogs"], "id": 74}
+{"name": "Howlin' Ray's", "address": "727 N Broadway Ste 128 Los Angeles, CA 90012 ", "rating": "4.5", "category": ["Southern", "Chicken Shop", "American (Traditional)"], "id": 75}
+{"name": "Bestia", "address": "2121 E 7th Pl Los Angeles, CA 90021 ", "rating": "4.5", "category": ["Italian", "Cocktail Bars", "Pizza"], "id": 76}
+{"name": "Philippe the Original", "address": "1001 N Alameda St Los Angeles, CA 90012 ", "rating": "4", "category": ["Sandwiches", "Breakfast & Brunch", "American (Traditional)"], "id": 77}
+{"name": "Republique", "address": "624 S La Brea Ave Los Angeles, CA 90036 ", "rating": "4", "category": ["French", "Breakfast & Brunch", "Cocktail Bars"], "id": 78}
+{"name": "Eggslut", "address": "317 S Broadway Grand Central Market Los Angeles, CA 90013 ", "rating": "4", "category": ["Breakfast & Brunch", "Sandwiches"], "id": 79}
+{"name": "Le Comptoir de la Gastronomie", "address": "34 rue Montmartre 75001 Paris France ", "rating": "4.5", "category": ["French"], "id": 80}
+{"name": "Bouillon Chartier", "address": "7 rue du Faubourg Montmartre 75009 Paris France ", "rating": "3.5", "category": ["French"], "id": 81}
+{"name": "Le Relais de l\u2019Entrec\u00f4te", "address": "15 rue Marbeuf 75008 Paris France ", "rating": "4", "category": ["Steakhouses"], "id": 82}
+{"name": "Les Cocottes", "address": "135 rue Saint Dominique 75007 Paris France ", "rating": "4", "category": ["Bistros"], "id": 83}
+{"name": "Blue Elephant", "address": "43-45 rue de la Roquette 75011 Paris France ", "rating": "3.5", "category": ["Thai"], "id": 84}
+{"name": "Le Comptoir", "address": "9 carrefour de l'Odeon 75006 Paris France ", "rating": "4", "category": ["Bistros"], "id": 85}
+{"name": "Buddha-Bar", "address": "8-12 bis rue Boissy d'Anglas 75008 Paris France ", "rating": "3.5", "category": ["Lounges", "Asian Fusion"], "id": 86}
+{"name": "Buddha-Bar", "address": "8-12 bis rue Boissy d'Anglas 75008 Paris France ", "rating": "3.5", "category": ["Lounges", "Asian Fusion"], "id": 86}
+{"name": "La Cr\u00eaperie de Josselin", "address": "67 rue du Montparnasse 75014 Paris France ", "rating": "4", "category": ["Creperies"], "id": 87}
+{"name": "Le Petit Cler", "address": "29 rue Cler 75007 Paris France ", "rating": "4", "category": ["Bistros"], "id": 88}
+{"name": "Le Temps des Cerises", "address": "31 rue de la Cerisaie 75004 Paris France ", "rating": "4.5", "category": ["French", "Bistros", "Cafes"], "id": 89}
+{"name": "\u30a8\u30c3\u30b0\u30bb\u30ec\u30f3\u30c8", "address": "\u516d\u672c\u67286-10-1 \u68ee\u30bf\u30ef\u30fc\u30d2\u30eb\u30b5\u30a4\u30c9 B1F Minato, \u6771\u4eac\u90fd \u3012106-0032 Japan ", "rating": "4", "category": ["American (Traditional)", "Breakfast & Brunch", "Cafes"], "id": 90}
+{"name": "\u30cb\u30f3\u30b8\u30e3 \u30a2\u30ab\u30b5\u30ab", "address": "\u6c38\u7530\u753a2-14-3 1F Chiyoda, \u6771\u4eac\u90fd \u3012100-0014 Japan ", "rating": "4", "category": ["Gastropubs", "Steakhouses", "Sukiyaki"], "id": 91}
+{"name": "\u30ab\u30ec\u30fc\u30cf\u30a6\u30b9CoCo\u58f1\u756a\u5c4b \u65b0\u5bbf\u99c5\u897f\u53e3\u5e97", "address": "\u897f\u65b0\u5bbf1-2-12 Shinjuku, \u6771\u4eac\u90fd \u3012160-0023 Japan ", "rating": "4.5", "category": ["Japanese Curry"], "id": 92}
+{"name": "\u9f8d\u306e\u5bb6\u65b0\u5bbf\u5c0f\u6edd\u6a4b\u901a\u308a\u5e97", "address": "\u897f\u65b0\u5bbf7-4-5 \u5bcc\u58eb\u91ce\u30d3\u30eb 1F Shinjuku, \u6771\u4eac\u90fd \u3012160-0023 Japan ", "rating": "5", "category": ["Ramen", "Noodles"], "id": 93}
+{"name": "SUSHI\u6a29\u516b \u897f\u9ebb\u5e03", "address": "\u897f\u9ebb\u5e031-13-11 Minato, \u6771\u4eac\u90fd \u3012106-0031 Japan ", "rating": "3.5", "category": ["Izakaya", "Sushi Bars", "Sake Bars"], "id": 94}
+{"name": "\u9b5a\u304c\u3057\u65e5\u672c\u4e00 \u7acb\u55b0\u5bff\u53f8 \u6e0b\u8c37\u30bb\u30f3\u30bf\u30fc\u8857\u5e97", "address": "\u5b87\u7530\u5ddd\u753a25-6 Shibuya, \u6771\u4eac\u90fd \u3012150-0042 Japan ", "rating": "4.5", "category": ["Sushi Bars", "Japanese"], "id": 95}
+{"name": "\u30a4\u30de\u30ab\u30c4 \u516d\u672c\u6728\u672c\u5e97", "address": "\u516d\u672c\u67284-12-5 \u30d5\u30a7\u30cb\u30ad\u30a2\u30eb\u30af\u30bd\u30b9 \u30b9 1F Minato, \u6771\u4eac\u90fd \u3012106-0032 Japan ", "rating": "5", "category": ["Tonkatsu", "Rice", "Bento"], "id": 96}
+{"name": "\u30c7\u30d3\u30eb\u30af\u30e9\u30d5\u30c8 \u6d5c\u677e\u753a\u5e97", "address": "\u6d5c\u677e\u753a2-13-12 \u30e9\u30a4\u30ba\u30a6\u30a7\u30eb\u30d3\u30eb1F Minato, \u6771\u4eac\u90fd \u3012105-0013 Japan ", "rating": "4.5", "category": ["Pizza", "Beer Bar"], "id": 97}
+{"name": "\u3072\u307e\u308f\u308a\u5bff\u53f8 \u65b0\u90fd\u5fc3\u5e97", "address": "\u897f\u65b0\u5bbf1-15-3 Shinjuku, \u6771\u4eac\u90fd \u3012160-0023 Japan ", "rating": "4", "category": ["Sushi Bars", "Donburi", "Conveyor Belt Sushi"], "id": 98}
+{"name": "\u8336\u5bee \u90fd\u8def\u91cc \u5927\u4e38\u6771\u4eac\u5e97", "address": "\u4e38\u306e\u51851-9-1 \u5927\u4e38\u6771\u4eac\u5e97 10F Chiyoda, \u6771\u4eac\u90fd \u3012100-0005 Japan ", "rating": "4.5", "category": ["Cafes", "Japanese Sweets", "Tea Rooms"], "id": 99}
+{"name": "Brenda's French Soul Food", "address": "652 Polk St San Francisco, CA 94102 ", "rating": "4", "category": ["Breakfast & Brunch", "Southern", "Cajun/Creole"], "id": 100}
+{"name": "Fog Harbor Fish House", "address": "39 Pier Ste a - 202 San Francisco, CA 94133 ", "rating": "4.5", "category": ["Seafood", "Wine Bars", "Cocktail Bars"], "id": 101}
+{"name": "Tartine Bakery", "address": "600 Guerrero St San Francisco, CA 94110 ", "rating": "4", "category": ["Bakeries", "Cafes", "Desserts"], "id": 102}
+{"name": "House of Prime Rib", "address": "1906 Van Ness Ave San Francisco, CA 94109 ", "rating": "4", "category": ["American (Traditional)", "Steakhouses", "Wine Bars"], "id": 103}
+{"name": "San Tung", "address": "1031 Irving St San Francisco, CA 94122 ", "rating": "4", "category": ["Chinese", "Chicken Wings", "Noodles"], "id": 104}
+{"name": "Burma Superstar", "address": "309 Clement St San Francisco, CA 94118 ", "rating": "4", "category": ["Burmese"], "id": 105}
+{"name": "Hog Island Oyster", "address": "1 Ferry Bldg Shop 11 San Francisco, CA 94111 ", "rating": "4.5", "category": ["Seafood", "Seafood Markets", "Live/Raw Food"], "id": 106}
+{"name": "Tony's Pizza Napoletana", "address": "1570 Stockton St San Francisco, CA 94133 ", "rating": "4", "category": ["Pizza", "Italian", "Cocktail Bars"], "id": 107}
+{"name": "Gary Danko", "address": "800 N Point St San Francisco, CA 94109 ", "rating": "4.5", "category": ["American (New)", "French", "Wine Bars"], "id": 108}
+{"name": "Nopa", "address": "560 Divisadero St San Francisco, CA 94117 ", "rating": "4", "category": ["American (New)", "Desserts", "Cocktail Bars"], "id": 109}
+{"name": "Depot", "address": "86 Federal St Auckland Central Auckland 1010 New Zealand ", "rating": "4.5", "category": ["Tapas/Small Plates", "Seafood"], "id": 110}
+{"name": "Federal Delicatessen", "address": "86 Federal St Auckland 1010 New Zealand ", "rating": "4.5", "category": ["American (Traditional)", "Diners", "Delicatessen"], "id": 111}
