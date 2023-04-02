@@ -69,21 +69,39 @@ function App() {
 
 
   useEffect(() => {
-    const url =  `http://localhost:8983/solr/restaurant_info/suggest?q.op=OR&q=${q}&suggest.build=true&suggest.collate=true&suggest.dictionary=mySuggester&suggest=true`
+    if(page==''){
+      return
+    }
+    console.log(page)
+    let suggester = 'suggest.dictionary=suggest_fuzzy&suggest.dictionary=suggest_infix';
+    if(page == 'info'){
+      suggester = 'suggest.dictionary=mySuggester';
+    }
+    const url =  `http://localhost:8983/solr/restaurant_${page}/suggest?q.op=OR&q=${q}&suggest.build=true&suggest.collate=true&${suggester}&suggest=true`
     fetch(url)
     .then((res) => res.json())
     .then((res) => {
       console.log(res['suggest'],res['suggest']["mySuggester"])
-      
-      if(res['suggest']!=undefined &&res['suggest']["mySuggester"]&&res['suggest']["mySuggester"][q]!=undefined){
-        const suggestions = res['suggest']["mySuggester"][q]['suggestions'];
-        const newSuggest: string[] = [];
+
+      const newSuggest: string[] = [];
+      if(res['suggest']!=undefined &&res['suggest']["suggest_infix"]!=undefined&&res['suggest']["suggest_infix"][q]!=undefined){
+        const suggestions = res['suggest']["suggest_infix"][q]['suggestions'];
         suggestions.map((v: any, idx: number) => {
           newSuggest.push(v['term']);
         })
-        console.log(newSuggest)
-        setSuggest(newSuggest);
       }
+
+      if(res['suggest']!=undefined &&res['suggest']["suggest_fuzzy"]!=undefined&&res['suggest']["suggest_fuzzy"][q]!=undefined){
+        const suggestions = res['suggest']["suggest_fuzzy"][q]['suggestions'];
+        suggestions.map((v: any, idx: number) => {
+          const term = v['term']
+          if(newSuggest.filter((x: string)=>x.replace('<b>','').replace('</b>','') == term).length == 0){
+            newSuggest.push(term);
+          }
+          
+        })
+      }
+      setSuggest(newSuggest);
 
     })
   }, [debouncedQ]);
@@ -117,7 +135,13 @@ function App() {
               }
               setQ(event.target.value);
             }}/>
-            <Button disabled={page==''} sx={{margin:'5px'}} variant="outlined" onClick={()=>{setSearchQ(q)}}>Search</Button>
+            <Button disabled={page==''} 
+            sx={{margin:'5px'}} 
+            variant="outlined" 
+            onClick={()=>{
+              console.log(q);
+              setSearchQ(q);
+            }}>Search</Button>
           </Box>
           
           <Button variant="outlined" onClick={()=>{setOpenDialog(true)}}>Add Data</Button>

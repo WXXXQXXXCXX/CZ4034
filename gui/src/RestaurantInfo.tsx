@@ -17,14 +17,14 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
     const [numPages, setNumPages] = useState(0);
     const [page, setPage] = useState(1);
     const [showFilter, setShowFilter] = useState(false);
-    const [contentUrl, setContentUrl] = useState(`http://localhost:8983/solr/restaurant_info/select?facet.field=category&facet.field=rating&facet=true&q.op=OR&q=${q}`);
+    const [contentUrl, setContentUrl] = useState(`http://localhost:8983/solr/restaurant_info/select?facet.field=category&facet.field=rating&facet=true&q.op=OR`);
     const [facetCategory, setFacetCategory] = useState<{[key: string]: number}>({})
     const [facetRating, setFacetRating] = useState<{[key: number]: number}>({});
     const [selectedKeywords, setSelectedKeywords] = useState<any[]>([]);
     const [selectedRating, setSelectedRating] = useState<any[]>([]);
 
     const fetchRestaurant = (start: number) => {
-        const url = `${contentUrl}&start=${start}`
+        const url = `${contentUrl}&q=${q}&start=${start}`
         fetch(url)
         .then((res) => res.json())
         .then((res) => {
