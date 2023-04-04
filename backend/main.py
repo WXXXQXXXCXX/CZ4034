@@ -14,7 +14,7 @@ solr = SolrClient()
 def update():
     data = request.get_data()
     data = json.loads(data)
-    I, R = crawl(absa, solr, data['location'],data['url'], data['num_restaurants'], data['num_reviews'])
+    I, R = crawl(absa, solr, data['location'],data['url'], data['num_reviews'], data['num_restaurants'])
     resp = Response(json.dumps({'num_store':I, 'num_review':R}), mimetype='application/json')
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
@@ -23,3 +23,8 @@ def update():
 def polarity_analysis():
     data = request.get_data()
     data = json.loads(data)
+
+if __name__ == '__main__':
+    app.run(host="localhost", port=5000, debug=True)
+
+

@@ -2,7 +2,7 @@ import React, { FC, useMemo, useState, useEffect } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvent, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { Box, Button, Card, CardContent, Checkbox, Chip, Dialog, IconButton, ListItem, ListItemButton, ListItemText, Pagination, TablePagination, Typography } from '@mui/material';
-import L from 'leaflet';
+import L, { LatLng, LatLngExpression } from 'leaflet';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 let DefaultIcon = L.icon({
@@ -22,6 +22,8 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
     const [facetRating, setFacetRating] = useState<{[key: number]: number}>({});
     const [selectedKeywords, setSelectedKeywords] = useState<any[]>([]);
     const [selectedRating, setSelectedRating] = useState<any[]>([]);
+    const [center, setCenter] = useState<LatLngExpression>([51.0, 19.0]);
+    const [zoom, setZoom] = useState(2);
 
     const fetchRestaurant = (start: number) => {
         const url = `${contentUrl}&q=${q}&start=${start}`
@@ -32,6 +34,9 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
                 setData(res['response']['docs']);
                 setNumPages(Math.ceil(res['response']['numFound']/10));
                 console.log(res);
+                const latlon = res['response']['docs'][0]['address_latlon'].split(',')
+                setCenter(latlon);
+                setZoom(13);
             }
 
             if(res['facet_counts']!=undefined && res['facet_counts']['facet_fields']!=undefined){
@@ -214,7 +219,12 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
         });
         return null;
     }
-    
+
+    const ChangeView: FC<{center:LatLngExpression, zoom:number}> = ({ center, zoom }) => {
+        const map = useMap();
+        map.setView(center, zoom);
+        return null;
+    }
 
     return (
         <>
@@ -234,8 +244,8 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
             <MapContainer
             className="markercluster-map"
             style={{height: '92vh', width: "70vw", bottom: "0", right: "0", position:'absolute'}}
-            center={[51.0, 19.0]}
-            zoom={3}
+            center={center}
+            zoom={zoom}
             minZoom={2}
             maxZoom={18}
             >
@@ -257,6 +267,7 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
                     })
                 }
                 <MapEvents />
+                <ChangeView center={center} zoom={zoom} /> 
                 {
                     showFilter?
                     <Dialog 
@@ -289,7 +300,9 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
                                         </ListItem>
                                     )
                                 }):<></>
-                            }</Box>
+                            }
+                            
+                            </Box>
                             <Typography variant="body2">Filter By Category</Typography>
                             <Box sx={{maxWidth:"50vw", maxHeight:'50vh',overflow:'scroll'}}>
                             {
@@ -315,9 +328,7 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
                                         )    
                                 }):<></>
                             }</Box>
-                            <Button onClick={()=>{
-
-                            }}>Filter</Button>
+                            
                         </Box>
                     </Dialog>:<></>
                 }

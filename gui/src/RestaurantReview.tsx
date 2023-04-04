@@ -1,12 +1,8 @@
 import { Box } from '@mui/system';
 import React, { FC, useMemo, useState, useEffect } from 'react';
-import dayjs from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Card, Checkbox, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Pagination, Rating, TextField, Typography } from '@mui/material';
-
+import { Card, Checkbox, Chip, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Pagination, Rating, TextField, Typography } from '@mui/material';
+import { AgChart, AgChartOptions } from 'ag-charts-community';
+import { AgChartsReact } from 'ag-charts-react';
 
 
 const RestaurantReview: FC<{q:string}> = ({q}) => {
@@ -16,7 +12,7 @@ const RestaurantReview: FC<{q:string}> = ({q}) => {
     const [storeName, setStoreName] = useState<any[]>([]);
     const [selectedStores, setSelectedStores] = useState<number[]>([]);
     const [numPages, setNumPages] = useState(0);
-    const [contentUrl, setContentUrl] = useState(`http://localhost:8983/solr/restaurant_review/select?df=review_txt&facet.field=tag`);
+    const [contentUrl, setContentUrl] = useState(`${baseUrl}/select?df=review_txt&facet.field=tag`);
     const [queryJson, setQueryJson] = useState<any>();
     const [page, setPage] = useState(1);
     const [facetTag, setFacetTag] = useState<{[key: string]: number}>({})
@@ -105,11 +101,11 @@ const RestaurantReview: FC<{q:string}> = ({q}) => {
     }
 
 
-    const fetchReviewPage = (start: number) => {
+    const fetchReviewPage = (start: number, omitFilters: boolean) => {
         console.log('fetch review, ', contentUrl);
         let url = `${baseUrl}/select?df=review_txt&q=${q}&hl.fl=review_txt&hl=true`
         let query_params: RequestInit = {};
-        if(queryJson==undefined){
+        if(queryJson==undefined || omitFilters){
             query_params.method = "GET";
             const f_date = 'facet.range=review_date&f.review_date.facet.range.start=NOW/DAY-10YEARS&f.review_date.facet.range.end=NOW/DAY&f.review_date.facet.range.gap=%2B1YEAR'
             url = `${url}&facet=true&facet.field=rating&facet.field=restaurant&facet.field=tag&${f_date}&start=${start}&f.tag.facet.mincount=5`
@@ -186,9 +182,10 @@ const RestaurantReview: FC<{q:string}> = ({q}) => {
                     let newStore: {[key: string]:number} = {}
                     restaurant.forEach((v: any, idx:number)=>{
                         if(idx%2==0){
-                            newStore[restaurant[idx]] = rate[idx+1];
+                            newStore[restaurant[idx]] = restaurant[idx+1];
                         }
                     })
+                    console.log(newStore);
                     setFacetRestaurant(newStore);
                 }
 
@@ -243,27 +240,10 @@ const RestaurantReview: FC<{q:string}> = ({q}) => {
     }, [])
 
     const fetchReviewWithFacet = (restaurants: number[], tags: string[], ratings: number[], years: string[]) => {
-        let url=`http://localhost:8983/solr/restaurant_review/select?q=${q}`
+        let url=`${baseUrl}/select?df=review_txt&q=${q}`
 
         const filters = [];
-        // const facets: {[key: string]:any} = {};
-        // facets['tag'] = {
-        //     "type":"terms",
-        //     "field":"tag",
-        //     "mincount":5,
-        //     "limit":50    
-        // }
-        // facets['rating']={
-        //     "type":"terms",
-        //     "field":"rating",
-        //     "limit":10
-        // }
-        // facets['restaurant']={
-        //     "type":"terms",
-        //     "field":"restaurant",
-        //     "mincount":1,
-        //     "limit":5
-        // }
+        
         const facets = facet;
         if(tags.length>0){
             const words = []
@@ -358,14 +338,18 @@ const RestaurantReview: FC<{q:string}> = ({q}) => {
         newPage: number
     ) => {
         setPage(newPage);
-        fetchReviewPage((newPage-1)*10);
+        fetchReviewPage((newPage-1)*10, false);
     };
 
     
 
     useEffect(() => {
         console.log(q);
-        fetchReviewPage(0);
+        setSelectedDate([]);
+        setSelectedKeywords([]);
+        setSelectedRating([]);
+        setSelectedStores([]);
+        fetchReviewPage(0, true);
     },[q])
 
     useEffect(() => {
@@ -398,10 +382,7 @@ const RestaurantReview: FC<{q:string}> = ({q}) => {
     },[facetRestaurant]);
 
     
-
-    
-
-    
+  
     return (
         <>
             <Box
@@ -453,13 +434,27 @@ const RestaurantReview: FC<{q:string}> = ({q}) => {
                             <ListItemButton sx={{width: "25vw", paddingLeft: "2px"}}>
                                 <ListItemText 
                                 id={`${idx}`} 
-                                primary={`${name[0]}(${facetRestaurant[name[1]]})`} />
+                                primary={`${name[0]}(${facetRestaurant[idx]})`} />
                             </ListItemButton>
                         </ListItem>
                     }) 
                 }
                 </List>
                 <Typography variant="body2">Filter By Year</Typography>
+                <Box sx={{width:"30vw", height: "30vh", overflow: "scroll"}}>
+                <AgChartsReact options={{
+                    data: Object.keys(facetDate).map((x) => {
+                        return {'year':x.slice(0,4), 'count':facetDate[x]}
+                    }),
+                    series: [
+                        {
+                          type: 'column',
+                          xKey: 'year',
+                          yKey: 'count',
+                        },
+                    ],
+                }} />
+                </Box>
                 <List dense sx={{ width: '100%', maxWidth: "25vw", bgcolor: 'background.paper' }}>
                 {
                     facetDate!=undefined?
@@ -484,7 +479,22 @@ const RestaurantReview: FC<{q:string}> = ({q}) => {
                         )
                     }):<></>
                 }</List>
+                
                 <Typography variant="body2">Filter By Rating</Typography>
+                <Box sx={{width:"30vw", height: "30vh", overflow: "scroll"}}>
+                <AgChartsReact options={{
+                    data: Object.keys(facetRating).map((x: any) => {
+                        return {'rating':x, 'count':facetRating[x]}
+                    }),
+                    series: [
+                        {
+                          type: 'column',
+                          xKey: 'rating',
+                          yKey: 'count',
+                        },
+                    ],
+                }} />
+                </Box>
                 <List dense sx={{ width: '100%', maxWidth: "25vw", bgcolor: 'background.paper' }}>
                 {
                     facetRating!=undefined?
@@ -509,6 +519,7 @@ const RestaurantReview: FC<{q:string}> = ({q}) => {
                         )
                     }):<></>
                 }</List>
+                
             </Box>
 
             <Box
@@ -542,7 +553,28 @@ const RestaurantReview: FC<{q:string}> = ({q}) => {
                                     </Typography>
                                 </Box>
                                 { highlight(review['review_txt']) }
-                                
+                                <Divider sx={{margin:"5px"}}/>
+                                <Box
+                                flexDirection='column'
+                                sx={{ 
+                                    width: "95%", 
+                                    margin: "5px",
+                                    
+                                }}>
+                                {
+                                    review.sentiment.map((x: string) => {
+                                        const data = x.split('|')
+                                        const term = data[0]
+                                        const sentiment = data[1]
+                                        const color = sentiment=='positive'?'success':'negative'?'error':'info'
+                                        return (
+                                          
+                                            <Chip label={term} sx={{marginTop: "4px", marginRight: "2px"}} color={color} size="small"/>
+                                            
+                                        )
+                                    })
+                                }
+                                </Box>
                             </Card>
                         )
                     }):<></>

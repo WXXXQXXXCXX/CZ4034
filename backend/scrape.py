@@ -270,8 +270,8 @@ def crawl(absa, solr, location="",url="",num_reviews = 1, num_restaurants = 1):
         I = [I]
     pprint(I)
     pprint(R)
-    solr.update_restaurant(I)
-    solr.update_review(R)
+    #solr.update_restaurant(I)
+    #solr.update_review(R)
     return len(I), len(R)
 
 

@@ -1,48 +1,20 @@
 import './App.css';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
+import CloseIcon from '@mui/icons-material/Close';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Dialog, DialogContent, DialogTitle, FormControl, ListItem, Menu, MenuItem, TextField } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, ListItem, Menu, MenuItem, OutlinedInput, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import RestaurantInfo from './RestaurantInfo';
 import RestaurantReview from './RestaurantReview';
 import useDebounce from './debounce';
 
 function App() {
 
-  // const Search = styled('div')(({ theme }) => ({
-  //   position: 'relative',
-  //   borderRadius: theme.shape.borderRadius,
-  //   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  //   '&:hover': {
-  //     backgroundColor: alpha(theme.palette.common.white, 0.25),
-  //   },
-  //   marginRight: theme.spacing(2),
-  //   marginLeft: 0,
-  //   width: '100%',
-  //   [theme.breakpoints.up('sm')]: {
-  //     marginLeft: theme.spacing(3),
-  //     width: 'auto',
-  //   },
-  // }));
-
-  // const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  //   color: 'inherit',
-  //   '& .MuiInputBase-input': {
-  //     padding: theme.spacing(1, 1, 1, 0),
-  //     // vertical padding + font size from searchIcon
-  //     paddingLeft: '2em',
-  //     transition: theme.transitions.create('width'),
-  //     width: '100%',
-  //     [theme.breakpoints.up('md')]: {
-  //       width: '20ch',
-  //     },
-  //   },
-  // }));
-
+  
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   // const suggestRef = useRef();
@@ -50,7 +22,7 @@ function App() {
   const [page, setPage] = React.useState('')
   const [q, setQ] = React.useState('');
   const open = Boolean(anchorEl);
-  const debouncedQ = useDebounce<string>(q, 800);
+  const debouncedQ = useDebounce<string>(q, 400);
   const [suggest, setSuggest] = React.useState<string[]>([])
   const [openDialog, setOpenDialog] = useState(false);
   const [searchQ, setSearchQ] = useState('*:*');
@@ -58,7 +30,18 @@ function App() {
   const [loc, setLoc] = useState('');
   const [numStore, setNumStore] = useState(1);
   const [numReview, setNumReview] = useState(1);
+  const [openPolarity, setOpenPolarity] = useState(false);
+  const [selectedModels, setSelectedModels] = useState<string[]>([]);
+  const [sentence, setSentence] = useState('');
 
+  const [polarityData, setPolarityData] = useState<any[]>([{
+    review: "This restaurant is good, i will definitely come back again!!",
+    lstm: 1,
+    bert: 1,
+    label: 1,
+    logistic: 1,
+    ensemble: 1
+  }]);
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -87,7 +70,8 @@ function App() {
       if(res['suggest']!=undefined &&res['suggest']["suggest_infix"]!=undefined&&res['suggest']["suggest_infix"][q]!=undefined){
         const suggestions = res['suggest']["suggest_infix"][q]['suggestions'];
         suggestions.map((v: any, idx: number) => {
-          newSuggest.push(v['term']);
+          console.log(v['term'], v['term'].replaceAll('<b>','').replaceAll('</b>',''))
+          newSuggest.push(v['term'].replaceAll('<b>','').replaceAll('</b>',''));
         })
       }
 
@@ -95,12 +79,14 @@ function App() {
         const suggestions = res['suggest']["suggest_fuzzy"][q]['suggestions'];
         suggestions.map((v: any, idx: number) => {
           const term = v['term']
-          if(newSuggest.filter((x: string)=>x.replace('<b>','').replace('</b>','') == term).length == 0){
-            newSuggest.push(term);
+          if(newSuggest.filter((x: string)=>x.replaceAll('<b>','').replaceAll('</b>','') == term).length == 0){
+            console.log(term, term.replaceAll('<b>','').replaceAll('</b>',''))
+            newSuggest.push(term.replaceAll('<b>','').replaceAll('</b>',''));
           }
           
         })
       }
+      console.log(newSuggest);
       setSuggest(newSuggest);
 
     })
@@ -121,7 +107,7 @@ function App() {
             <SearchRoundedIcon />
           </IconButton>
           <Box
-            sx={{ width: '30%'}}
+            sx={{ width: 'max-content'}}
           >
             <TextField 
             disabled={page==''}
@@ -140,11 +126,16 @@ function App() {
             variant="outlined" 
             onClick={()=>{
               console.log(q);
-              setSearchQ(q);
+              if(q === ''){
+                setSearchQ('*:*');
+              } else{
+                setSearchQ(q);
+              }
             }}>Search</Button>
           </Box>
           
           <Button variant="outlined" onClick={()=>{setOpenDialog(true)}}>Add Data</Button>
+          <Button variant="outlined" sx={{marginLeft: '5px'}} onClick={()=>{setOpenPolarity(true)}}>Sentiment</Button>
 
           <Menu
           id='suggest-menu'
@@ -231,9 +222,114 @@ function App() {
             inputProps: { min: 0, max:50 }
           }}
           size="small" /> 
-          <Button onClick={()=>{}}>Go</Button>
+          <Button onClick={()=>{
+            console.log(numStore, numReview, loc, url);
+            fetch('http://localhost:5000/update', {
+              method: "POST",
+              body: JSON.stringify({
+                location: loc,
+                url: url,
+                num_restaurants: numStore,
+                num_reviews: numReview,
+              })
+            })
+            .then((res) => res.json())
+            .then((res) => {
+              console.log(res)
+            })
+          }}>Go</Button>
         </div>
         </DialogContent>
+
+      </Dialog>
+
+      <Dialog
+      open={openPolarity}
+      
+      fullScreen>
+        <AppBar sx={{ position: 'relative' }} color='transparent'>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={()=>{setOpenPolarity(false)}}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <TableContainer 
+        component={Paper}
+        sx={{ width: '69%', marginTop: '1%'}}>
+          <Table sx={{ width: '100%'}} size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{width:"60%"}}>Review</TableCell>
+                <TableCell sx={{width:"8%"}} align="right">Label</TableCell>
+                <TableCell sx={{width:"8%"}} align="right">Logistic</TableCell>
+                <TableCell sx={{width:"8%"}} align="right">LSTM</TableCell>
+                <TableCell sx={{width:"8%"}} align="right">BERT</TableCell>
+                <TableCell sx={{width:"8%"}} align="right">Ensemble</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {
+                polarityData.map((x, id) => {
+                  return (
+                    <TableRow 
+                    key={`table-row${id}`}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                      <TableCell component="th" scope="row" sx={{width:"60%"}}>{x.review}</TableCell>
+                      <TableCell sx={{width:"8%"}} align="right">{x.label}</TableCell>
+                      <TableCell sx={{width:"8%"}} align="right">{x.logistic}</TableCell>
+                      <TableCell sx={{width:"8%"}} align="right">{x.lstm}</TableCell>
+                      <TableCell sx={{width:"8%"}} align="right">{x.bert}</TableCell>
+                      <TableCell sx={{width:"8%"}} align="right">{x.ensemble}</TableCell>
+                    </TableRow>
+                  )
+                })
+              }
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Box 
+        sx={{
+          width: "30%",
+          position: 'absolute',
+          top: "18%",
+          right: '0',
+        }} 
+        flexDirection="column">
+          <FormControl sx={{ width:'100%'}}>
+            <InputLabel>Model</InputLabel>
+            <Select
+            value={selectedModels}
+            onChange={(e)=>{
+              const value = e.target.value;
+              setSelectedModels(typeof value === 'string' ? value.split(',') : value);
+            }}
+            multiple
+            input={<OutlinedInput label="Model" />}>
+              <MenuItem key={'lstm'} value={'lstm'}>LSTM</MenuItem>
+              <MenuItem key={'logistic'} value={'logistic'}>Logistic</MenuItem>
+              <MenuItem key={'bert'} value={'bert'}>BERT</MenuItem>
+              <MenuItem key={'ensemble'} value={'ensemble'}>Ensemble</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField 
+          sx={{width:'100%'}}
+          multiline
+          value={sentence}
+          onChange={(e)=>{setSentence(e.target.value)}}
+          variant="standard"
+          rows={5}
+          placeholder='Input a sentence for classification'/>
+          <Button>Go</Button>
+          
+
+
+        </Box>
 
       </Dialog>
       {
