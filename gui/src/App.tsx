@@ -1,5 +1,6 @@
 import './App.css';
 import { styled, alpha } from '@mui/material/styles';
+import * as Papa from 'papaparse';
 import AppBar from '@mui/material/AppBar';
 import CloseIcon from '@mui/icons-material/Close';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, ListItem, Menu, MenuItem, OutlinedInput, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, Link, ListItem, Menu, MenuItem, OutlinedInput, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography } from '@mui/material';
 import RestaurantInfo from './RestaurantInfo';
 import RestaurantReview from './RestaurantReview';
 import useDebounce from './debounce';
@@ -33,6 +34,9 @@ function App() {
   const [openPolarity, setOpenPolarity] = useState(false);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [sentence, setSentence] = useState('');
+  const [prediction, setPrediction] = useState<any[]>([]);
+  const [tablePage, setTablePage] = useState(0);
+
 
   const [polarityData, setPolarityData] = useState<any[]>([{
     review: "This restaurant is good, i will definitely come back again!!",
@@ -42,6 +46,46 @@ function App() {
     logistic: 1,
     ensemble: 1
   }]);
+
+  useEffect(() => {
+    fetch(`${process.env.PUBLIC_URL}/eval_prediction.csv`)
+    .then((res) => res.text())
+    .then((res) => {
+      let lines = res.split('\n');
+      lines = lines.slice(1, lines.length);
+      const data = []
+      for(let line of lines){
+        if (line.split(',').length==5){
+          let fields = line.split(',');
+          data.push({
+            review: fields[1],
+            lstm: 1,
+            bert: Number(fields[3]).toFixed(3),
+            label: fields[2],
+            logistic: 1,
+            ensemble: fields[4]
+          });
+          continue
+        }
+        let fields = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+        console.log(fields)
+        if(fields == undefined){
+          continue;
+        }
+        data.push({
+          review: fields[1],
+          lstm: 1,
+          bert: Number(fields[3]).toFixed(3),
+          label: fields[2],
+          logistic: 1,
+          ensemble: fields[4]
+        });
+
+      }
+      setPolarityData(data);
+    })
+    
+  }, [])
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -262,20 +306,19 @@ function App() {
         <TableContainer 
         component={Paper}
         sx={{ width: '69%', marginTop: '1%'}}>
-          <Table sx={{ width: '100%'}} size="small">
+          <Table stickyHeader sx={{ width: '100%'}} size="small">
             <TableHead>
               <TableRow>
                 <TableCell sx={{width:"60%"}}>Review</TableCell>
                 <TableCell sx={{width:"8%"}} align="right">Label</TableCell>
                 <TableCell sx={{width:"8%"}} align="right">Logistic</TableCell>
-                <TableCell sx={{width:"8%"}} align="right">LSTM</TableCell>
                 <TableCell sx={{width:"8%"}} align="right">BERT</TableCell>
                 <TableCell sx={{width:"8%"}} align="right">Ensemble</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {
-                polarityData.map((x, id) => {
+                polarityData.slice(10*tablePage, 10*tablePage+10).map((x, id) => {
                   return (
                     <TableRow 
                     key={`table-row${id}`}
@@ -283,7 +326,6 @@ function App() {
                       <TableCell component="th" scope="row" sx={{width:"60%"}}>{x.review}</TableCell>
                       <TableCell sx={{width:"8%"}} align="right">{x.label}</TableCell>
                       <TableCell sx={{width:"8%"}} align="right">{x.logistic}</TableCell>
-                      <TableCell sx={{width:"8%"}} align="right">{x.lstm}</TableCell>
                       <TableCell sx={{width:"8%"}} align="right">{x.bert}</TableCell>
                       <TableCell sx={{width:"8%"}} align="right">{x.ensemble}</TableCell>
                     </TableRow>
@@ -292,7 +334,15 @@ function App() {
               }
             </TableBody>
           </Table>
+          <TablePagination
+          component="div"
+          count={polarityData.length}
+          rowsPerPage={10}
+          page={tablePage}
+          onPageChange={(e, newPage)=>{setTablePage(newPage);}}
+        />
         </TableContainer>
+        
         <Box 
         sx={{
           width: "30%",
@@ -311,8 +361,10 @@ function App() {
             }}
             multiple
             input={<OutlinedInput label="Model" />}>
-              <MenuItem key={'lstm'} value={'lstm'}>LSTM</MenuItem>
+              <MenuItem key={'svc'} value={'svc'}>Linear SVC</MenuItem>
+              <MenuItem key={'sgd'} value={'sgd'}>SGD</MenuItem>
               <MenuItem key={'logistic'} value={'logistic'}>Logistic</MenuItem>
+              <MenuItem key={'lstm'} value={'lstm'}>LSTM</MenuItem>
               <MenuItem key={'bert'} value={'bert'}>BERT</MenuItem>
               <MenuItem key={'ensemble'} value={'ensemble'}>Ensemble</MenuItem>
             </Select>
@@ -325,8 +377,80 @@ function App() {
           variant="standard"
           rows={5}
           placeholder='Input a sentence for classification'/>
-          <Button>Go</Button>
-          
+          <Link 
+          component="button"
+          variant="body2"
+          onClick={() => {
+            setSentence("Excellent pancakes, which you would expect based on their name, and good service.")
+          }}>Example 1
+          </Link>
+          <Link 
+          component="button"
+          sx={{marginLeft: '4px'}}
+          variant="body2"
+          onClick={() => {
+            setSentence("We were in from out of town visiting friends. Everyone said this"+
+            "was a destination restaurant so we were psyched to get a reservation on our last night in town. "+
+            "All weekend we heard about great Girl & The Goat was. It did not live up to expectations. "+
+            "The food was good but not great."+
+            "Green beans were the best thing we ordered. The service stunk."+
+            "Our waiter was not attentive and disappeared for long periods of time. "+
+            "I tipped our busser because she was the only person in the restaurant that was helpful to us.")
+          }}>Example 2
+          </Link>
+          <Link 
+          component="button"
+          variant="body2"
+          sx={{marginLeft: '6px'}}
+          onClick={() => {
+            setSentence("The food was amazing! I had the sausage and cheddar omelette and Cinnamon roll pancakes. We had a party of 6 and the service was great. I recommend this place.")
+          }}>Example 3
+          </Link>
+          <Button 
+          color='primary'
+          sx={{position: 'absolute', right: '5px'}}
+          onClick={() => {
+            console.log(selectedModels);
+            console.log(sentence);
+            fetch('http://localhost:5000/polarity',{
+              method: 'POST',
+              body: JSON.stringify({'models': selectedModels, 'text':sentence})
+            })
+            .then((res) => res.json())
+            .then((res) => {
+              console.log(res)
+              setPrediction(res);
+            })
+          }}>Go</Button>
+          <TableContainer component={Paper} sx={{marginTop: '10px'}}>
+            <Table size="small" sx={{width: '100%'}}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Model</TableCell>
+                  <TableCell align="right">Prediction</TableCell>
+                  <TableCell align="right">Time</TableCell>
+                </TableRow>
+              </TableHead>
+                  {
+                    prediction.map((row) => {
+                      return (
+                        <TableRow 
+                        key={row.model}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row.model}
+                          </TableCell>
+                          <TableCell align="right">{row.prediction}</TableCell>
+                          <TableCell align="right">{row.time}</TableCell>
+                        </TableRow>
+                      )
+                    })
+                  }
+                
+              
+            </Table>
+          </TableContainer>
 
 
         </Box>

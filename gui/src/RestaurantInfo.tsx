@@ -1,7 +1,7 @@
 import React, { FC, useMemo, useState, useEffect } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvent, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-import { Box, Button, Card, CardContent, Checkbox, Chip, Dialog, IconButton, ListItem, ListItemButton, ListItemText, Pagination, TablePagination, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Checkbox, Chip, Dialog, IconButton, ListItem, ListItemButton, ListItemText, Pagination, Rating, TablePagination, Typography } from '@mui/material';
 import L, { LatLng, LatLngExpression } from 'leaflet';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
@@ -26,7 +26,7 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
     const [zoom, setZoom] = useState(2);
 
     const fetchRestaurant = (start: number) => {
-        const url = `${contentUrl}&q=${q}&start=${start}`
+        const url = `${contentUrl}&q=${q}&df=keywords&start=${start}`
         fetch(url)
         .then((res) => res.json())
         .then((res) => {
@@ -177,7 +177,7 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
 
     useEffect(() => {
         fetchRestaurant(0);
-    },[]);
+    },[q]);
 
 
     const handlePageChange = (
@@ -195,10 +195,11 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
             <Card sx={{ width: "27vw"}} key={info['id']}>
                 <CardContent>
                     <Typography variant="h5" component="div">
-                        {info.name_en}
+                        {info.name_en? info.name_en: info.name_fr}
                     </Typography>
-                    <Typography variant="body2">
-                        Rating: {info.rating}
+                    <Rating value={info.rating} readOnly size="small"/>
+                    <Typography variant="caption" component="div">
+                        {info.address}
                     </Typography>
                     {
                         info.category.map((cat: string)=>(
@@ -221,6 +222,7 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
     }
 
     const ChangeView: FC<{center:LatLngExpression, zoom:number}> = ({ center, zoom }) => {
+        console.log(center)
         const map = useMap();
         map.setView(center, zoom);
         return null;

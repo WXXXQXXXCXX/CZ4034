@@ -1,4 +1,5 @@
 import re
+import time
 
 import numpy as np
 from keras.models import load_model
@@ -32,7 +33,7 @@ def f1_m(y_true, y_pred):
 
 class BertPolarity:
     def __init__(self):
-        self.bert_model = load_model('yelp_bert.h5',
+        self.bert_model = load_model('models/yelp_bert.h5',
                                 custom_objects={
                                     "TFDistilBertModel": transformers.TFDistilBertModel.from_pretrained(
                                         'distilbert-base-multilingual-cased'),
@@ -70,10 +71,12 @@ class BertPolarity:
         return np.array(all_ids)
 
     def predict(self, txt):
+        start = time.time()
         txt_cleaned = [self._preprocess(i) for i in txt]
         x = self._fast_encode(txt_cleaned, self.fast_tokenizer, self.MAX_LEN)
         y = self.bert_model.predict(x)
-        return y
+        end = time.time()
+        return y, end-start
 
 if __name__ == '__main__':
     x = BertPolarity()
