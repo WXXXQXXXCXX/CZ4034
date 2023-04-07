@@ -4,6 +4,8 @@ import 'leaflet/dist/leaflet.css'
 import { Box, Button, Card, CardContent, Checkbox, Chip, Dialog, IconButton, ListItem, ListItemButton, ListItemText, Pagination, Rating, TablePagination, Typography } from '@mui/material';
 import L, { LatLng, LatLngExpression } from 'leaflet';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 let DefaultIcon = L.icon({
     iconUrl: `${process.env.PUBLIC_URL}/marker-icon.png`,
@@ -17,16 +19,17 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
     const [numPages, setNumPages] = useState(0);
     const [page, setPage] = useState(1);
     const [showFilter, setShowFilter] = useState(false);
-    const [contentUrl, setContentUrl] = useState(`http://localhost:8983/solr/restaurant_info/select?facet.field=category&facet.field=rating&facet=true&q.op=OR`);
+    const [contentUrl, setContentUrl] = useState(`http://localhost:8983/solr/restaurant_info/select?facet.field=category&facet.field=rating&facet.mincount=1&facet=true&q.op=OR`);
     const [facetCategory, setFacetCategory] = useState<{[key: string]: number}>({})
     const [facetRating, setFacetRating] = useState<{[key: number]: number}>({});
     const [selectedKeywords, setSelectedKeywords] = useState<any[]>([]);
     const [selectedRating, setSelectedRating] = useState<any[]>([]);
     const [center, setCenter] = useState<LatLngExpression>([51.0, 19.0]);
     const [zoom, setZoom] = useState(2);
+    const [keywordsLimit, setKeywordsLimit] = useState(8);
 
     const fetchRestaurant = (start: number) => {
-        const url = `${contentUrl}&q=${q}&df=keywords&start=${start}`
+        const url = `http://localhost:8983/solr/restaurant_info/select?facet.field=category&facet.field=rating&facet.mincount=1&facet=true&q.op=OR&q=${q}&df=keywords&start=${start}`
         fetch(url)
         .then((res) => res.json())
         .then((res) => {
@@ -94,7 +97,7 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
 
     const fetchRestaurantWithLatLng = (lat: number, lng: number) => {
         console.log('fetch restaurant with lat lng', lat, lng);
-        const url = `http://localhost:8983/solr/restaurant_info/select?facet.field=category&facet.field=rating&facet=true&d=500&fq={!geofilt}&sfield=address_latlon&pt=${lat},${lng}&q=${q}&spatial=true&sort=geodist() asc`
+        const url = `http://localhost:8983/solr/restaurant_info/select?facet.field=category&facet.field=rating&facet.mincount=1&facet=true&d=500&fq={!geofilt}&sfield=address_latlon&pt=${lat},${lng}&spatial=true&q=*:*&sort=geodist() asc`
         fetch(url)
         .then((res) => res.json())
         .then((res) => {
@@ -119,13 +122,12 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
         const facets: {[key: string]:any} = {};
         facets['category'] = {
             "type":"terms",
-            "field":"category",
-            "limit":50    
+            "field":"category",  
         }
         facets['rating']={
             "type":"terms",
             "field":"rating",
-            "limit":10
+            "sort":"count desc"
         }
         if(words.length>0){
             filters.push(`{!tag=category}category:(${words.join(' OR ')})`);   
@@ -215,6 +217,7 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
     const MapEvents = () => {
         useMapEvents({
           click(e) {
+            console.log(e.latlng);
             fetchRestaurantWithLatLng(e.latlng.lat, e.latlng.lng)
           },
         });
@@ -277,12 +280,23 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
                     onClose={()=>{
                         setShowFilter(false);
                     }}>
-                        <Box sx={{maxWidth:"50vw"}}>
-                            <Typography variant="body2">Filter By Rating</Typography>
+                        <Box sx={{maxWidth:"50vw", margin: '10px'}}>
+                            <Typography variant="body2" sx={{margin: '10px'}}>Filter By Rating</Typography>
                             <Box sx={{maxWidth:"50vw", maxHeight:'30vh',overflow:'scroll'}}>
                             {
                                 facetRating!=undefined?
-                                Object.keys(facetRating).map((ele: any, idx: number) => {
+                                Object.keys(facetRating).sort((a:any, b:any)=>{
+                                    if(Number(a)>Number(b)){
+                                        return 1
+                                    } else if(Number(a)==Number(b)){
+                                        return 0
+                                    } else {
+                                        return -1
+                                    }
+                                }).map((ele: any, idx: number) => {
+                                    if(ele==undefined || facetRating[ele]==undefined){
+                                        return <></>
+                                    }
                                     return (
                                         <ListItem 
                                         dense sx={{height:"3vh"}}
@@ -290,13 +304,13 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
                                         secondaryAction={
                                             <Checkbox
                                               edge="end"
-                                              onChange={handleRatingSelect(ele)}
-                                              checked={selectedRating.indexOf(ele) !== -1}
+                                              onChange={handleRatingSelect(Number(ele))}
+                                              checked={selectedRating.indexOf(Number(ele)) !== -1}
                                             />
                                         }>
                                             <ListItemButton sx={{width: "20vw"}}>
                                                 <ListItemText 
-                                                id={`${idx}`} 
+                                                id={`${Number(idx)}`} 
                                                 primary={`${ele} (${facetRating[ele]})`} />
                                             </ListItemButton>
                                         </ListItem>
@@ -305,11 +319,11 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
                             }
                             
                             </Box>
-                            <Typography variant="body2">Filter By Category</Typography>
-                            <Box sx={{maxWidth:"50vw", maxHeight:'50vh',overflow:'scroll'}}>
+                            <Typography variant="body2" sx={{margin: '10px'}}>Filter By Category</Typography>
+                            <Box sx={{maxWidth:"50vw", maxHeight:'50vh',overflow:'scroll', margin: '10px'}}>
                             {
                                 facetCategory!=undefined ?
-                                Object.keys(facetCategory).map((ele: any, idx: number) => {
+                                Object.keys(facetCategory).slice(0, keywordsLimit).map((ele: any, idx: number) => {
                                     return (
                                         <ListItem 
                                         key={ele}
@@ -330,6 +344,44 @@ const RestaurantInfo: FC<{q:string}> = ({q}) =>{
                                         )    
                                 }):<></>
                             }</Box>
+                            <Box sx={{display: 'flex'}}>
+                {
+                    facetCategory!=undefined && keywordsLimit<Object.keys(facetCategory).length?
+                        <Button 
+                        style={{
+                            display: 'flex',
+                            color: 'blue',
+                            fontFamily:'Roboto',
+                            fontSize:'12px',
+                            lineHeight: '16px',
+                            width: '40%'
+                        }}
+                        endIcon={<KeyboardArrowDownIcon />}
+                        onClick={()=>{
+                            setKeywordsLimit(keywordsLimit+5)
+                        }}>Show More</Button>
+                    :<></>
+
+                }
+                {
+                    facetCategory!=undefined && keywordsLimit>8?
+                        <Button 
+                        style={{
+                            marginLeft: '10px',
+                            display: 'flex',
+                            color: 'blue',
+                            fontFamily:'Roboto',
+                            fontSize:'12px',
+                            lineHeight: '16px',
+                        }}
+                        endIcon={<KeyboardArrowUpIcon />}
+                        onClick={()=>{
+                            setKeywordsLimit(8)
+                        }}>Show Less</Button>
+                    :<></>
+
+                }
+                </Box>
                             
                         </Box>
                     </Dialog>:<></>

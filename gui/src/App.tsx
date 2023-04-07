@@ -40,7 +40,6 @@ function App() {
 
   const [polarityData, setPolarityData] = useState<any[]>([{
     review: "This restaurant is good, i will definitely come back again!!",
-    lstm: 1,
     bert: 1,
     label: 1,
     logistic: 1,
@@ -55,14 +54,13 @@ function App() {
       lines = lines.slice(1, lines.length);
       const data = []
       for(let line of lines){
-        if (line.split(',').length==5){
+        if (line.split(',').length==6){
           let fields = line.split(',');
           data.push({
             review: fields[1],
-            lstm: 1,
             bert: Number(fields[3]).toFixed(3),
             label: fields[2],
-            logistic: 1,
+            logistic: fields[5],
             ensemble: fields[4]
           });
           continue
@@ -74,7 +72,6 @@ function App() {
         }
         data.push({
           review: fields[1],
-          lstm: 1,
           bert: Number(fields[3]).toFixed(3),
           label: fields[2],
           logistic: 1,
@@ -104,7 +101,7 @@ function App() {
     if(page == 'info'){
       suggester = 'suggest.dictionary=mySuggester';
     }
-    const url =  `http://localhost:8983/solr/restaurant_${page}/suggest?q.op=OR&q=${q}&suggest.build=true&suggest.collate=true&${suggester}&suggest=true`
+    const url =  `http://localhost:8983/solr/restaurant_${page}/suggest?q.op=OR&q=${q}&suggest.collate=true&${suggester}&suggest=true`
     fetch(url)
     .then((res) => res.json())
     .then((res) => {
@@ -214,10 +211,12 @@ function App() {
             <MenuItem onClick={()=>{
               setAnchorEl(null); 
               setPage('info')
+              setSearchQ('*:*')
             }}>Search Restaurants</MenuItem>
             <MenuItem onClick={()=>{
               setAnchorEl(null); 
               setPage('review')
+              setSearchQ('*:*')
             }}>Search Reviews</MenuItem>
           </Menu>
 
@@ -364,7 +363,6 @@ function App() {
               <MenuItem key={'svc'} value={'svc'}>Linear SVC</MenuItem>
               <MenuItem key={'sgd'} value={'sgd'}>SGD</MenuItem>
               <MenuItem key={'logistic'} value={'logistic'}>Logistic</MenuItem>
-              <MenuItem key={'lstm'} value={'lstm'}>LSTM</MenuItem>
               <MenuItem key={'bert'} value={'bert'}>BERT</MenuItem>
               <MenuItem key={'ensemble'} value={'ensemble'}>Ensemble</MenuItem>
             </Select>
@@ -389,13 +387,14 @@ function App() {
           sx={{marginLeft: '4px'}}
           variant="body2"
           onClick={() => {
-            setSentence("We were in from out of town visiting friends. Everyone said this"+
-            "was a destination restaurant so we were psyched to get a reservation on our last night in town. "+
-            "All weekend we heard about great Girl & The Goat was. It did not live up to expectations. "+
-            "The food was good but not great."+
-            "Green beans were the best thing we ordered. The service stunk."+
-            "Our waiter was not attentive and disappeared for long periods of time. "+
-            "I tipped our busser because she was the only person in the restaurant that was helpful to us.")
+            setSentence("So...the first (and possibly) only other time I've eaten at this location was about 7 years ago."+
+            "I was really impressed. The meats were delicious, the sides were delicious, and it was a good value.Fast forward to tonight. "+
+            "We picked up a pork platter and st. "+
+            "louis ribs meal (sides were brisket chili, mac and cheese, and corned bread with memphis and spicy memphis style sauces). "+
+            "I understand that the pandemic has been really hard for restaurants and meat prices are crazy right now so I can't complain about the portions. But nothing was seasoned. "+
+            "The meat was cooked nicely but it was tasteless, and the sauces did not help (both of the sauces tasted exactly the same by the way). "+
+            "The macaroni and cheese was also bland and the cornbread okay, but not special. "+
+            "Maybe this was just an off night or maybe my expectations were too high.")
           }}>Example 2
           </Link>
           <Link 
